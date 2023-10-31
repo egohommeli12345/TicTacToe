@@ -10,7 +10,7 @@
 
     <Shell.MenuBarItems>
         <MenuBarItem Text="Menu">
-            <MenuFlyoutItem Text="Settings" Command="{Binding NavigateToSettingsCommand}"/>
+            <MenuFlyoutItem Text="Stats" Command="{Binding ShowStatsCommand}"/>
             <MenuFlyoutItem Text="Exit" />
         </MenuBarItem>
     </Shell.MenuBarItems>

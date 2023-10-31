@@ -53,7 +53,16 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <MauiXaml Update="SettingsPage.xaml">
+	  <Compile Update="Stats.xaml.cs">
+	    <DependentUpon>Stats.xaml</DependentUpon>
+	  </Compile>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <MauiXaml Update="PlayPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Stats.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	</ItemGroup>

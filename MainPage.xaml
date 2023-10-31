@@ -3,12 +3,10 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="TicTacToe.MainPage">
 
-    <Grid Margin="20" Padding="10" RowSpacing="10" ColumnSpacing="10">
+    <Grid Margin="10" ColumnSpacing="10">
         <Grid.RowDefinitions>
-            <RowDefinition Height="20" />
             <RowDefinition Height="*" />
-            <RowDefinition Height="*" />
-            <RowDefinition Height="*" />
+            <RowDefinition Height="60" />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" />
@@ -16,19 +14,60 @@
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
 
-        <Label Text="Player 1's turn" HorizontalOptions="Center" VerticalOptions="Center" Grid.Row="0" Grid.ColumnSpan="3"/>
+        <Grid Grid.Row="0" Grid.Column="0" RowSpacing="20">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="20" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
 
-        <Button Grid.Row="1" Grid.Column="0" Text="" Clicked="OnButtonClicked" />
-        <Button Grid.Row="1" Grid.Column="1" Text="" Clicked="OnButtonClicked" />
-        <Button Grid.Row="1" Grid.Column="2" Text="" Clicked="OnButtonClicked" />
+            <Label Grid.Row="0" HorizontalOptions="Center" VerticalOptions="Center">Player 1</Label>
+            <Entry x:Name="Player1Firstname" Placeholder="Firstname" Grid.Row="1" />
+            <Entry x:Name="Player1Surname" Placeholder="Surname" Grid.Row="2" />
+            <Entry x:Name="Player1Year" Placeholder="Year of birth" Grid.Row="3" />
+            <Picker Grid.Row="4" HorizontalOptions="CenterAndExpand">
+                <Picker.ItemsSource>
+                    <x:Array Type="{x:Type x:String}">
+                        <x:String>Choose existing</x:String>
+                        <x:String>Capuchin Monkey</x:String>
+                    </x:Array>
+                </Picker.ItemsSource>
+                <Picker.SelectedIndex>0</Picker.SelectedIndex>
+            </Picker>
+            
+        </Grid>
 
-        <Button Grid.Row="2" Grid.Column="0" Text="" Clicked="OnButtonClicked" />
-        <Button Grid.Row="2" Grid.Column="1" Text="" Clicked="OnButtonClicked" />
-        <Button Grid.Row="2" Grid.Column="2" Text="" Clicked="OnButtonClicked" />
+        <Label Grid.Row="0" Grid.Column="1" HorizontalOptions="Center" VerticalOptions="Center" FontSize="30">VS</Label>
 
-        <Button Grid.Row="3" Grid.Column="0" Text="" Clicked="OnButtonClicked" />
-        <Button Grid.Row="3" Grid.Column="1" Text="" Clicked="OnButtonClicked" />
-        <Button Grid.Row="3" Grid.Column="2" Text="" Clicked="OnButtonClicked" />
+        <Grid Grid.Row="0" Grid.Column="2" RowSpacing="20">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="20" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+
+            <Label Grid.Row="0" HorizontalOptions="Center" VerticalOptions="Center">Player 2</Label>
+            <Entry x:Name="Player2Firstname" Placeholder="Firstname" Grid.Row="1" />
+            <Entry x:Name="Player2Surname" Placeholder="Surname" Grid.Row="2" />
+            <Entry x:Name="Player2Year"  Placeholder="Year of birth" Grid.Row="3" />
+            <Picker Grid.Row="4" HorizontalOptions="CenterAndExpand">
+                <Picker.ItemsSource>
+                    <x:Array Type="{x:Type x:String}">
+                        <x:String>Choose existing</x:String>
+                        <x:String>Capuchin Monkey</x:String>
+                    </x:Array>
+                </Picker.ItemsSource>
+                <Picker.SelectedIndex>0</Picker.SelectedIndex>
+            </Picker>
+            
+        </Grid>
+
+        <Button Grid.Row="1" Grid.Column="1" Text="Play" Margin="0, 0, 0, 10"></Button>
+        <Button Grid.Row="1" Grid.Column="2" Text="Play against AI" Margin="0, 0, 0, 10"></Button>
 
     </Grid>
 
