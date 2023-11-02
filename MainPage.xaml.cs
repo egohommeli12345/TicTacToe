@@ -15,7 +15,13 @@
         public MainPage()
         {
             InitializeComponent();
+            Routing.RegisterRoute(nameof(PlayPage), typeof(PlayPage));
+            BindingContext = this;
         }
 
+        private void PlayVS(object sender, EventArgs e)
+        {
+            Shell.Current.GoToAsync(nameof(PlayPage));
+        }
     }
 }

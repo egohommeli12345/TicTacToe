@@ -16,19 +16,19 @@
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
 
-        <Label Text="Player 1's turn" HorizontalOptions="Center" VerticalOptions="Center" Grid.Row="0" Grid.ColumnSpan="3"/>
+        <Label x:Name="whosturn" Text="Player 1's turn" HorizontalOptions="Center" VerticalOptions="Center" Grid.Row="0" Grid.ColumnSpan="3"/>
 
-        <Button Grid.Row="1" Grid.Column="0" Text="" Clicked="OnButtonClicked" />
-        <Button Grid.Row="1" Grid.Column="1" Text="" Clicked="OnButtonClicked" />
-        <Button Grid.Row="1" Grid.Column="2" Text="" Clicked="OnButtonClicked" />
+        <Button x:Name="button1" Grid.Row="1" Grid.Column="0" Text="" Clicked="OnButtonClicked" />
+        <Button x:Name="button2" Grid.Row="1" Grid.Column="1" Text="" Clicked="OnButtonClicked" />
+        <Button x:Name="button3" Grid.Row="1" Grid.Column="2" Text="" Clicked="OnButtonClicked" />
 
-        <Button Grid.Row="2" Grid.Column="0" Text="" Clicked="OnButtonClicked" />
-        <Button Grid.Row="2" Grid.Column="1" Text="" Clicked="OnButtonClicked" />
-        <Button Grid.Row="2" Grid.Column="2" Text="" Clicked="OnButtonClicked" />
+        <Button x:Name="button4" Grid.Row="2" Grid.Column="0" Text="" Clicked="OnButtonClicked" />
+        <Button x:Name="button5" Grid.Row="2" Grid.Column="1" Text="" Clicked="OnButtonClicked" />
+        <Button x:Name="button6" Grid.Row="2" Grid.Column="2" Text="" Clicked="OnButtonClicked" />
 
-        <Button Grid.Row="3" Grid.Column="0" Text="" Clicked="OnButtonClicked" />
-        <Button Grid.Row="3" Grid.Column="1" Text="" Clicked="OnButtonClicked" />
-        <Button Grid.Row="3" Grid.Column="2" Text="" Clicked="OnButtonClicked" />
+        <Button x:Name="button7" Grid.Row="3" Grid.Column="0" Text="" Clicked="OnButtonClicked" />
+        <Button x:Name="button8" Grid.Row="3" Grid.Column="1" Text="" Clicked="OnButtonClicked" />
+        <Button x:Name="button9" Grid.Row="3" Grid.Column="2" Text="" Clicked="OnButtonClicked" />
 
     </Grid>
 
