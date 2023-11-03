@@ -18,17 +18,17 @@
 
         <Label x:Name="whosturn" Text="Player 1's turn" HorizontalOptions="Center" VerticalOptions="Center" Grid.Row="0" Grid.ColumnSpan="3"/>
 
-        <Button x:Name="button1" Grid.Row="1" Grid.Column="0" Text="" Clicked="OnButtonClicked" />
-        <Button x:Name="button2" Grid.Row="1" Grid.Column="1" Text="" Clicked="OnButtonClicked" />
-        <Button x:Name="button3" Grid.Row="1" Grid.Column="2" Text="" Clicked="OnButtonClicked" />
+        <Button ClassId="button0" x:Name="button0" Grid.Row="1" Grid.Column="0" Text="" Clicked="OnButtonClicked" />
+        <Button ClassId="button1" x:Name="button1" Grid.Row="1" Grid.Column="1" Text="" Clicked="OnButtonClicked" />
+        <Button ClassId="button2" x:Name="button2" Grid.Row="1" Grid.Column="2" Text="" Clicked="OnButtonClicked" />
 
-        <Button x:Name="button4" Grid.Row="2" Grid.Column="0" Text="" Clicked="OnButtonClicked" />
-        <Button x:Name="button5" Grid.Row="2" Grid.Column="1" Text="" Clicked="OnButtonClicked" />
-        <Button x:Name="button6" Grid.Row="2" Grid.Column="2" Text="" Clicked="OnButtonClicked" />
+        <Button ClassId="button3" x:Name="button3" Grid.Row="2" Grid.Column="0" Text="" Clicked="OnButtonClicked" />
+        <Button ClassId="button4" x:Name="button4" Grid.Row="2" Grid.Column="1" Text="" Clicked="OnButtonClicked" />
+        <Button ClassId="button5" x:Name="button5" Grid.Row="2" Grid.Column="2" Text="" Clicked="OnButtonClicked" />
 
-        <Button x:Name="button7" Grid.Row="3" Grid.Column="0" Text="" Clicked="OnButtonClicked" />
-        <Button x:Name="button8" Grid.Row="3" Grid.Column="1" Text="" Clicked="OnButtonClicked" />
-        <Button x:Name="button9" Grid.Row="3" Grid.Column="2" Text="" Clicked="OnButtonClicked" />
+        <Button ClassId="button6" x:Name="button6" Grid.Row="3" Grid.Column="0" Text="" Clicked="OnButtonClicked" />
+        <Button ClassId="button7" x:Name="button7" Grid.Row="3" Grid.Column="1" Text="" Clicked="OnButtonClicked" />
+        <Button ClassId="button8" x:Name="button8" Grid.Row="3" Grid.Column="2" Text="" Clicked="OnButtonClicked" />
 
     </Grid>
 
