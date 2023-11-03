@@ -12,7 +12,7 @@ public partial class PlayPage : ContentPage
 
 
     int turncounter = 0;
-    int[,] board = new int[3, 3];
+    int[] board = new int[9];
 
     private void OnButtonClicked(object sender, EventArgs e)
     {
@@ -47,7 +47,7 @@ public partial class PlayPage : ContentPage
     private void ResetGame()
     {
         turncounter = 0;
-        board = new int[3, 3];
+        board = new int[9];
     }
 
     private int ButtonLocation(Button button)
