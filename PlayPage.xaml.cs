@@ -111,4 +111,9 @@ public partial class PlayPage : ContentPage
         int buttonlocation = int.Parse(elementId);
         return buttonlocation;
     }
+
+    public void AiOpponent()
+    {
+
+    }
 }

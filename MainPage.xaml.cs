@@ -35,30 +35,88 @@ namespace TicTacToe
             Shell.Current.GoToAsync(nameof(PlayPage));
         }
 
-        private void SavePlayerInfo(object sender, EventArgs e)
+        private void PlayAI(object sender, EventArgs e)
+        {
+            Shell.Current.GoToAsync(nameof(PlayPage));
+        }
+
+        private void AddPlayer(object sender, EventArgs e)
+        {
+            Player newPlayer = new Player();
+            Button button = (Button)sender;
+            switch (button.ClassId)
+            {
+                case "player1add":
+                    newPlayer = new Player(Player1Firstname.Text, Player1Surname.Text, int.Parse(Player1Year.Text), 0, 0, 0);
+                    break;
+                case "player2add":
+                    newPlayer = new Player(Player2Firstname.Text, Player2Surname.Text, int.Parse(Player2Year.Text), 0, 0, 0);
+                    break;
+            }
+
+            string path = AppDomain.CurrentDomain.BaseDirectory;
+            string filePath = Path.Combine(path, "player.json");
+
+            if (File.Exists(filePath))
+            {
+                // Read the existing file
+                var json = File.ReadAllText(filePath);
+
+                var playerCollection = new List<Player>();
+
+                if (json != "")
+                {
+                    // Deserialize the JSON into a collection
+                    playerCollection = JsonSerializer.Deserialize<List<Player>>(json) ?? new List<Player>();
+                }
+
+                // Add the new player to the collection
+                playerCollection.Add(newPlayer);
+
+                // Serialize the collection back to JSON
+                var updatedJson = JsonSerializer.Serialize(playerCollection, new JsonSerializerOptions { WriteIndented = true });
+
+                // Write the updated JSON back to the file
+                File.WriteAllText(filePath, updatedJson);
+            }
+            else
+            {
+                using (FileStream fs = File.Create(filePath))
+                {
+
+                }
+
+                // Read the existing file
+                var json = File.ReadAllText(filePath);
+
+                var playerCollection = new List<Player>();
+
+                if (json != "")
+                {
+                    // Deserialize the JSON into a collection
+                    playerCollection = JsonSerializer.Deserialize<List<Player>>(json) ?? new List<Player>();
+                }
+
+                // Add the new player to the collection
+                playerCollection.Add(newPlayer);
+
+                // Serialize the collection back to JSON
+                var updatedJson = JsonSerializer.Serialize(playerCollection, new JsonSerializerOptions { WriteIndented = true });
+
+                // Write the updated JSON back to the file
+                File.WriteAllText(filePath, updatedJson);
+            }
+        }
+
+        private void ClearStats(object sender, EventArgs e)
         {
             string path = AppDomain.CurrentDomain.BaseDirectory;
-            string filepath = Path.Combine(path, "player.json");
+            string filePath = Path.Combine(path, "player.json");
 
-            Player player1 = new Player();
-            player1.Firstname = Player1Firstname.Text;
-            player1.Surname = Player1Surname.Text;
-            player1.YearOfBirth = int.Parse(Player1Year.Text);
-            /*player1.Wins = 0;
-            player1.Losses = 0;
-            player1.Draws = 0;*/
-            string json = JsonSerializer.Serialize(player1);
-            File.WriteAllText(filepath, json);
-            
-            Player player2 = new Player();
-            player2.Firstname = Player2Firstname.Text;
-            player2.Surname = Player1Surname.Text;
-            player2.YearOfBirth = int.Parse(Player2Year.Text);
-            /*player2.Wins = 0;
-            player2.Losses = 0;
-            player2.Draws = 0;*/
-            json = JsonSerializer.Serialize(player2);
-            File.WriteAllText(filepath, json);
+            if (File.Exists(filePath))
+            {
+                File.Delete(filePath);
+            }
         }
     }
 }
