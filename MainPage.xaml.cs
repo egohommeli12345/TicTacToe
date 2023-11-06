@@ -189,8 +189,19 @@ namespace TicTacToe
         {
             string path = AppDomain.CurrentDomain.BaseDirectory;
             string filePath = Path.Combine(path, "player.json");
+            if (File.Exists(filePath) == false)
+            {
+                using (FileStream fs = File.Create(filePath))
+                {
+
+                }
+            }
             var json = File.ReadAllText(filePath);
-            var items = JsonSerializer.Deserialize<List<Player>>(json);
+            var items = new List<Player>();
+            if (json != "")
+            {
+                items = JsonSerializer.Deserialize<List<Player>>(json);
+            }
             var playerCollection = new ObservableCollection<Player> { DefaultPlayer };
             foreach (var item in items)
             {
@@ -198,9 +209,11 @@ namespace TicTacToe
             }
             Player1Picker.ItemsSource = playerCollection;
             Player2Picker.ItemsSource = playerCollection;
+            Player1Picker.SelectedIndex = 0;
+            Player2Picker.SelectedIndex = 0;
         }
 
-        void OnPlayer1PickerSelectedIndexChanged(object sender, EventArgs e)
+        /*void OnPlayer1PickerSelectedIndexChanged(object sender, EventArgs e)
         {
             var picker = sender as Picker;
             if (picker.SelectedIndex == 0)
@@ -216,6 +229,6 @@ namespace TicTacToe
             {
                 picker.SelectedIndex = -1;  // Deselect the item
             }
-        }
+        }*/
     }
 }

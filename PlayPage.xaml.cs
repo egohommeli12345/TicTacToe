@@ -8,6 +8,7 @@ public partial class PlayPage : ContentPage
     public PlayPage()
     {
         InitializeComponent();
+        Routing.RegisterRoute(nameof(MainPage), typeof(MainPage));
     }
 
     // Creating variables used to track the game progress
@@ -15,13 +16,13 @@ public partial class PlayPage : ContentPage
     int[] board = new int[9];
 
     // Function which tracks turns and checks if a player has won
-    private void OnButtonClicked(object sender, EventArgs e)
+    private async void OnButtonClicked(object sender, EventArgs e)
     {
         Button button = (Button)sender;
 
         if (button.Text != "")
         {
-            DisplayAlert("Alert", "Choose another square", "OK");
+            await DisplayAlert("Alert", "Choose another square", "OK");
         }
         else
         {
@@ -45,18 +46,20 @@ public partial class PlayPage : ContentPage
         {
             if (turncounter % 2 == 0)
             {
-                DisplayAlert("Alert", "Player 2 won!", "OK");
+                await DisplayAlert("Alert", "Player 2 won!", "OK");
             }
             else
             {
-                DisplayAlert("Alert", "Player 1 won!", "OK");
+                await DisplayAlert("Alert", "Player 1 won!", "OK");
             }
             ResetGame();
+            ReturnToMenu();
         }
         else if (turncounter == 9)
         {
-            DisplayAlert("Alert", "It's a tie!", "OK");
+            await DisplayAlert("Alert", "It's a tie!", "OK");
             ResetGame();
+            ReturnToMenu();
         }
     }
 
@@ -112,8 +115,40 @@ public partial class PlayPage : ContentPage
         return buttonlocation;
     }
 
-    public void AiOpponent()
+    // AI opponent, which is not quite AI. It randomly chooses a square to place an O. May or may not win...
+    // Simulates button clicks
+    private async void AiOpponent()
+    {
+        await RandomDelay();
+        Random random = new Random();
+        int rnd = random.Next(0, 9);
+        while (board[rnd] != 0)
+        {
+            rnd = random.Next(0, 9);
+        }
+        string buttonId = "button" + rnd.ToString();
+        Button button = (Button)FindByName(buttonId);
+        if (turncounter % 2 != 0)
+        {
+            OnButtonClicked(button, new EventArgs());
+        }
+    }
+
+    private void UpdateStats()
     {
 
+    }
+
+    private void ReturnToMenu()
+    {
+        Shell.Current.GoToAsync(nameof(MainPage));
+    }
+
+    // Random delay function for AI opponent. Makes the game more realistic.
+    private static async Task RandomDelay()
+    {
+        Random rnd = new Random();
+        int delay = rnd.Next(500, 2001); // Random delay between 500ms and 2000ms
+        await Task.Delay(delay);
     }
 }
