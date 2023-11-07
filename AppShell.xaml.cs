@@ -1,13 +1,16 @@
-﻿using System.Windows.Input;
+﻿using System.Text.Json;
+using System.Windows.Input;
 
 namespace TicTacToe
 {
     public partial class AppShell : Shell
     {
-        public ICommand ShowStatsCommand => new Command(async () =>
+        public ICommand OpenStatsCommand => new Command(async () =>
         {
             await Shell.Current.GoToAsync(nameof(Stats));
         });
+
+        public ICommand ExitCommand => new Command(Application.Current.Quit);
 
         public AppShell()
         {

@@ -225,8 +225,15 @@ namespace TicTacToe
         void OnPlayer1PickerSelectedIndexChanged(object sender, EventArgs e)
         {
             var picker = sender as Picker;
-            if (picker.SelectedIndex != 0 && Player2Picker.SelectedIndex != 0)
+            if ((picker.SelectedIndex != 0 && Player2Picker.SelectedIndex != 0) &&
+                (picker.SelectedIndex != -1 && Player2Picker.SelectedIndex != -1))
             {
+                if ((picker.SelectedIndex == Player2Picker.SelectedIndex))
+                {
+                    DisplayAlert("Error", "Please choose two different players", "OK");
+                    picker.SelectedIndex = 0;
+                    return;
+                }
                 PlayVSButton.IsEnabled = true;
             }
             else
@@ -236,6 +243,7 @@ namespace TicTacToe
             if (picker.SelectedIndex == 1)
             {
                 IsPlayer1Ai = true;
+                player1 = "_AI Opponent_";
             }
             else
             {
@@ -254,8 +262,15 @@ namespace TicTacToe
         void OnPlayer2PickerSelectedIndexChanged(object sender, EventArgs e)
         {
             var picker = sender as Picker;
-            if (picker.SelectedIndex != 0 && Player1Picker.SelectedIndex != 0)
+            if ((picker.SelectedIndex != 0 && Player1Picker.SelectedIndex != 0) &&
+                (picker.SelectedIndex != -1 && Player1Picker.SelectedIndex != -1))
             {
+                if (picker.SelectedIndex == Player1Picker.SelectedIndex)
+                {
+                    DisplayAlert("Error", "Please choose two different players", "OK");
+                    picker.SelectedIndex = 0;
+                    return;
+                }
                 PlayVSButton.IsEnabled = true;
             }
             else
@@ -265,6 +280,7 @@ namespace TicTacToe
             if (picker.SelectedIndex == 1)
             {
                 IsPlayer2Ai = true;
+                player2 = "_AI Opponent_";
             }
             else
             {

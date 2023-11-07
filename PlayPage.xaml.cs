@@ -1,6 +1,7 @@
 using System.Diagnostics.Metrics;
 using System.Security.Cryptography;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace TicTacToe;
 
@@ -29,7 +30,7 @@ public partial class PlayPage : ContentPage
 
     public async Task AiStart()
     {
-        if (MainPage.IsPlayer1Ai == true && MainPage.IsPlayer2Ai == true)
+        if (MainPage.IsPlayer1Ai == true)
         {
             await AiOpponent();
         }
@@ -49,9 +50,10 @@ public partial class PlayPage : ContentPage
             if (turncounter % 2 == 0)
             {
                 button.Text = "X";
-                whosturn.Text = "Player 2's turn";
+                whosturn.Text = $"{MainPage.player2}'s turn";
                 board[ButtonLocation(button)] = 1;
-                if (MainPage.IsPlayer2Ai == true)
+                turncounter++;
+                if (MainPage.IsPlayer2Ai == true && CheckIfWon(board) == false)
                 {
                     await AiOpponent();
                 }
@@ -59,33 +61,38 @@ public partial class PlayPage : ContentPage
             else
             {
                 button.Text = "O";
-                whosturn.Text = "Player 1's turn";
+                whosturn.Text = $"{MainPage.player1}'s turn";
                 board[ButtonLocation(button)] = 2;
-                if (MainPage.IsPlayer1Ai == true)
+                turncounter++;
+                if (MainPage.IsPlayer1Ai == true && CheckIfWon(board) == false)
                 {
                     await AiOpponent();
                 }
             }
         }
-        turncounter++;
 
         // Check if a player has won
         if (CheckIfWon(board) == true)
         {
             if (turncounter % 2 == 0)
             {
-                await DisplayAlert("Alert", "Player 2 won!", "OK");
+                UpdateStats(MainPage.player1, 0, 0, 1);
+                UpdateStats(MainPage.player2, 1, 0, 0);
+                await DisplayAlert("Alert", $"{MainPage.player2} won!", "Return to menu");
             }
             else
             {
-                await DisplayAlert("Alert", "Player 1 won!", "OK");
+                UpdateStats(MainPage.player1, 1, 0, 0);
+                UpdateStats(MainPage.player2, 0, 0, 1);
+                await DisplayAlert("Alert", $"{MainPage.player1} won!", "Return to menu");
             }
             ResetGame();
             ReturnToMenu();
         }
         else if (turncounter == 9)
         {
-            await DisplayAlert("Alert", "It's a tie!", "OK");
+            await DisplayAlert("Alert", "It's a tie!", "Return to menu");
+            UpdateStats("Draw", 0, 1, 0);
             ResetGame();
             ReturnToMenu();
         }
@@ -159,12 +166,36 @@ public partial class PlayPage : ContentPage
         OnButtonClicked(button, new EventArgs());
     }
 
-    private void UpdateStats()
+    private void UpdateStats(string winner, int win, int draw, int lose)
     {
+        string[] names = winner.Split(' ');
+
+        string firstName = names[0];
+        string lastName = names.Length > 1 ? names[1] : string.Empty;
+
         string path = AppDomain.CurrentDomain.BaseDirectory;
         string filePath = Path.Combine(path, "player.json");
 
-        string json = File.ReadAllText(filePath);
+        string jsonString = File.ReadAllText(filePath);
+        List<MainPage.Player> playerCollection = JsonSerializer.Deserialize<List<MainPage.Player>>(jsonString);
+
+        // Find the index of the player in the list
+        int playerIndex = playerCollection.FindIndex(p => p.Firstname == firstName && p.Surname == lastName);
+
+        // Check if the player was found
+        if (playerIndex != -1)
+        {
+            // Retrieve the player, modify it, and then set it back into the list
+            MainPage.Player playerToUpdate = playerCollection[playerIndex];
+            playerToUpdate.Wins += win;
+            playerToUpdate.Draws += draw;
+            playerToUpdate.Losses += lose;
+            playerCollection[playerIndex] = playerToUpdate; // Set the updated player back into the list
+
+            // Serialize and write the updated list back to the JSON file
+            string updatedJsonString = JsonSerializer.Serialize(playerCollection, new JsonSerializerOptions { WriteIndented = true });
+            File.WriteAllText(filePath, updatedJsonString);
+        }
     }
 
     private void ReturnToMenu()
