@@ -89,11 +89,11 @@ public partial class PlayPage : ContentPage
             ResetGame();
             ReturnToMenu();
         }
-        else if (turncounter == 9)
+        else if (turncounter == 9 && CheckIfWon(board) == false)
         {
-            await DisplayAlert("Alert", "It's a tie!", "Return to menu");
             UpdateStats(MainPage.player1, 0, 1, 0);
             UpdateStats(MainPage.player2, 0, 1, 0);
+            await DisplayAlert("Alert", "It's a tie!", "Return to menu");
             ResetGame();
             ReturnToMenu();
         }
