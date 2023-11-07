@@ -43,11 +43,6 @@ namespace TicTacToe
             Shell.Current.GoToAsync(nameof(PlayPage));
         }
 
-        private void PlayAI(object sender, EventArgs e)
-        {
-            Shell.Current.GoToAsync(nameof(PlayPage));
-        }
-
         private void AddPlayer(object sender, EventArgs e)
         {
             Player newPlayer = new Player();
@@ -172,6 +167,7 @@ namespace TicTacToe
             }
         }
 
+        // Deletes the player.json file, thus clearing all stats
         private void ClearStats(object sender, EventArgs e)
         {
             string path = AppDomain.CurrentDomain.BaseDirectory;
@@ -181,9 +177,11 @@ namespace TicTacToe
             {
                 File.Delete(filePath);
             }
+            UpdateList();
         }
 
         public readonly Player DefaultPlayer = new Player { Firstname = "Choose player", Surname = "" };
+        public readonly Player AiOpponent = new Player { Firstname = "_AI", Surname = "Opponent_", YearOfBirth = 6969 };
 
         private void UpdateList()
         {
@@ -195,6 +193,10 @@ namespace TicTacToe
                 {
 
                 }
+                var playerCollection2 = new List<Player> { AiOpponent };
+                var updatedJson = JsonSerializer.Serialize(playerCollection2, new JsonSerializerOptions { WriteIndented = true });
+
+                File.WriteAllText(filePath, updatedJson);
             }
             var json = File.ReadAllText(filePath);
             var items = new List<Player>();
@@ -213,22 +215,55 @@ namespace TicTacToe
             Player2Picker.SelectedIndex = 0;
         }
 
-        /*void OnPlayer1PickerSelectedIndexChanged(object sender, EventArgs e)
+        // Passing the selected players to the PlayPage
+        public static bool IsPlayer1Ai = false;
+        public static bool IsPlayer2Ai = false;
+        public static string player1;
+        public static string player2;
+
+        // Disabling "Play" button until user has chosen two players
+        void OnPlayer1PickerSelectedIndexChanged(object sender, EventArgs e)
         {
             var picker = sender as Picker;
-            if (picker.SelectedIndex == 0)
+            if (picker.SelectedIndex != 0 && Player2Picker.SelectedIndex != 0)
             {
-                picker.SelectedIndex = -1;  // Deselect the item
+                PlayVSButton.IsEnabled = true;
+            }
+            else
+            {
+                PlayVSButton.IsEnabled = false;
+            }
+            if (picker.SelectedIndex == 1)
+            {
+                IsPlayer1Ai = true;
+            }
+            else
+            {
+                IsPlayer1Ai = false;
+                player1 = picker.SelectedItem.ToString();
             }
         }
 
         void OnPlayer2PickerSelectedIndexChanged(object sender, EventArgs e)
         {
             var picker = sender as Picker;
-            if (picker.SelectedIndex == 0)
+            if (picker.SelectedIndex != 0 && Player1Picker.SelectedIndex != 0)
             {
-                picker.SelectedIndex = -1;  // Deselect the item
+                PlayVSButton.IsEnabled = true;
             }
-        }*/
+            else
+            {
+                PlayVSButton.IsEnabled = false;
+            }
+            if (picker.SelectedIndex == 1)
+            {
+                IsPlayer2Ai = true;
+            }
+            else
+            {
+                IsPlayer2Ai = false;
+                player2 = picker.SelectedItem.ToString();
+            }
+        }
     }
 }

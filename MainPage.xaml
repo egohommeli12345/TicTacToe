@@ -32,7 +32,7 @@
             <Entry x:Name="Player1Surname" Placeholder="Surname" Grid.Row="2" Grid.ColumnSpan="2" />
             <Entry x:Name="Player1Year" Placeholder="Year of birth" Grid.Row="3" Grid.ColumnSpan="2"/>
             <Button x:Name="Player1Add" ClassId="player1add" Text="Save new player" Grid.Row="4" Grid.Column="1" Clicked="AddPlayer" Margin="0, 0, 0, 15"></Button>
-            <Picker x:Name="Player1Picker" Grid.Row="4" HorizontalOptions="CenterAndExpand"></Picker>
+            <Picker x:Name="Player1Picker" Grid.Row="4" HorizontalOptions="CenterAndExpand" SelectedIndexChanged="OnPlayer1PickerSelectedIndexChanged"></Picker>
             
         </Grid>
 
@@ -56,14 +56,12 @@
             <Entry x:Name="Player2Surname" Placeholder="Surname" Grid.Row="2" Grid.ColumnSpan="2" />
             <Entry x:Name="Player2Year"  Placeholder="Year of birth" Grid.Row="3" Grid.ColumnSpan="2" />
             <Button x:Name="Player2Add" ClassId="player2add" Text="Save new player" Grid.Row="4" Grid.Column="1" Clicked="AddPlayer" Margin="0, 0, 0, 15"></Button>
-            <Picker x:Name="Player2Picker" Grid.Row="4" HorizontalOptions="CenterAndExpand"></Picker>
+            <Picker x:Name="Player2Picker" Grid.Row="4" HorizontalOptions="CenterAndExpand" SelectedIndexChanged="OnPlayer2PickerSelectedIndexChanged"></Picker>
             
         </Grid>
 
         <Button Grid.Row="1" Grid.Column="0" Text="Clear all stats" Margin="0, 0, 0, 10" Clicked="ClearStats"></Button>
-        <Button x:Name="PlayVSButton" Grid.Row="1" Grid.Column="1" Text="Play" Margin="0, 0, 0, 10" Clicked="PlayVS"></Button>
-        <Button x:Name="PlayAIButton" Grid.Row="1" Grid.Column="2" Text="Play against AI" Margin="0, 0, 0, 10" Clicked="PlayAI"></Button>
-
+        <Button x:Name="PlayVSButton" Grid.Row="1" Grid.Column="1" Text="Play" Margin="0, 0, 0, 10" Clicked="PlayVS" IsEnabled="False"></Button>
     </Grid>
 
 </ContentPage>

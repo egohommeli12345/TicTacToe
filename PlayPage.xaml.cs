@@ -11,9 +11,23 @@ public partial class PlayPage : ContentPage
         Routing.RegisterRoute(nameof(MainPage), typeof(MainPage));
     }
 
+    protected override async void OnAppearing()
+    {
+        base.OnAppearing();
+        await AiStart(); // Call AiStart asynchronously
+    }
+
     // Creating variables used to track the game progress
     int turncounter = 0;
     int[] board = new int[9];
+
+    public async Task AiStart()
+    {
+        if (MainPage.IsPlayer1Ai || MainPage.IsPlayer2Ai)
+        {
+            await AiOpponent();
+        }
+    }
 
     // Function which tracks turns and checks if a player has won
     private async void OnButtonClicked(object sender, EventArgs e)
@@ -31,12 +45,20 @@ public partial class PlayPage : ContentPage
                 button.Text = "X";
                 whosturn.Text = "Player 2's turn";
                 board[ButtonLocation(button)] = 1;
+                if (MainPage.IsPlayer1Ai == true)
+                {
+                    await AiOpponent();
+                }
             }
             else
             {
                 button.Text = "O";
                 whosturn.Text = "Player 1's turn";
                 board[ButtonLocation(button)] = 2;
+                if (MainPage.IsPlayer2Ai == true)
+                {
+                    await AiOpponent();
+                }
             }
         }
         turncounter++;
@@ -117,7 +139,7 @@ public partial class PlayPage : ContentPage
 
     // AI opponent, which is not quite AI. It randomly chooses a square to place an O. May or may not win...
     // Simulates button clicks
-    private async void AiOpponent()
+    private async Task AiOpponent()
     {
         await RandomDelay();
         Random random = new Random();
@@ -136,6 +158,8 @@ public partial class PlayPage : ContentPage
 
     private void UpdateStats()
     {
+        string path = AppDomain.CurrentDomain.BaseDirectory;
+        string filePath = Path.Combine(path, "player.json");
 
     }
 
