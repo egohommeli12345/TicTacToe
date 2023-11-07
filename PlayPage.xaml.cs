@@ -1,5 +1,6 @@
 using System.Diagnostics.Metrics;
 using System.Security.Cryptography;
+using System.Text.Json;
 
 namespace TicTacToe;
 
@@ -11,10 +12,15 @@ public partial class PlayPage : ContentPage
         Routing.RegisterRoute(nameof(MainPage), typeof(MainPage));
     }
 
+    bool gameStarted = false;
     protected override async void OnAppearing()
     {
         base.OnAppearing();
-        await AiStart(); // Call AiStart asynchronously
+        if (gameStarted == false)
+        {
+            await AiStart();
+            gameStarted = true;
+        }
     }
 
     // Creating variables used to track the game progress
@@ -23,7 +29,7 @@ public partial class PlayPage : ContentPage
 
     public async Task AiStart()
     {
-        if (MainPage.IsPlayer1Ai || MainPage.IsPlayer2Ai)
+        if (MainPage.IsPlayer1Ai == true && MainPage.IsPlayer2Ai == true)
         {
             await AiOpponent();
         }
@@ -45,7 +51,7 @@ public partial class PlayPage : ContentPage
                 button.Text = "X";
                 whosturn.Text = "Player 2's turn";
                 board[ButtonLocation(button)] = 1;
-                if (MainPage.IsPlayer1Ai == true)
+                if (MainPage.IsPlayer2Ai == true)
                 {
                     await AiOpponent();
                 }
@@ -55,7 +61,7 @@ public partial class PlayPage : ContentPage
                 button.Text = "O";
                 whosturn.Text = "Player 1's turn";
                 board[ButtonLocation(button)] = 2;
-                if (MainPage.IsPlayer2Ai == true)
+                if (MainPage.IsPlayer1Ai == true)
                 {
                     await AiOpponent();
                 }
@@ -150,10 +156,7 @@ public partial class PlayPage : ContentPage
         }
         string buttonId = "button" + rnd.ToString();
         Button button = (Button)FindByName(buttonId);
-        if (turncounter % 2 != 0)
-        {
-            OnButtonClicked(button, new EventArgs());
-        }
+        OnButtonClicked(button, new EventArgs());
     }
 
     private void UpdateStats()
@@ -161,6 +164,7 @@ public partial class PlayPage : ContentPage
         string path = AppDomain.CurrentDomain.BaseDirectory;
         string filePath = Path.Combine(path, "player.json");
 
+        string json = File.ReadAllText(filePath);
     }
 
     private void ReturnToMenu()

@@ -38,9 +38,9 @@ namespace TicTacToe
             UpdateList();
         }
 
-        private void PlayVS(object sender, EventArgs e)
+        private async void PlayVS(object sender, EventArgs e)
         {
-            Shell.Current.GoToAsync(nameof(PlayPage));
+            await Shell.Current.GoToAsync(nameof(PlayPage));
         }
 
         private void AddPlayer(object sender, EventArgs e)
@@ -240,7 +240,14 @@ namespace TicTacToe
             else
             {
                 IsPlayer1Ai = false;
-                player1 = picker.SelectedItem.ToString();
+                try
+                {
+                    player1 = picker.SelectedItem.ToString();
+                }
+                catch (NullReferenceException)
+                {
+                    player1 = "";
+                }
             }
         }
 
@@ -262,7 +269,14 @@ namespace TicTacToe
             else
             {
                 IsPlayer2Ai = false;
-                player2 = picker.SelectedItem.ToString();
+                try
+                {
+                    player2 = picker.SelectedItem.ToString();
+                }
+                catch (NullReferenceException)
+                {
+                    player2 = "";
+                }
             }
         }
     }
