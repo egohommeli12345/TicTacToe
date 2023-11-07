@@ -92,7 +92,8 @@ public partial class PlayPage : ContentPage
         else if (turncounter == 9)
         {
             await DisplayAlert("Alert", "It's a tie!", "Return to menu");
-            UpdateStats("Draw", 0, 1, 0);
+            UpdateStats(MainPage.player1, 0, 1, 0);
+            UpdateStats(MainPage.player2, 0, 1, 0);
             ResetGame();
             ReturnToMenu();
         }
