@@ -11,12 +11,14 @@ public partial class Stats : ContentPage
         Routing.RegisterRoute(nameof(MainPage), typeof(MainPage));
     }
 
+    // On page load it will read the JSON file
     protected override void OnAppearing()
     {
         base.OnAppearing();
         ReadJSON();
     }
 
+    // Reads the JSON file and displays the stats
     private void ReadJSON()
 	{
         string path = AppDomain.CurrentDomain.BaseDirectory;

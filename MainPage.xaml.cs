@@ -5,6 +5,7 @@ namespace TicTacToe
 {
     public partial class MainPage : ContentPage
     {
+        // Strruct for the player information
         public struct Player
         {
             public string Firstname { get; set; }
@@ -42,12 +43,23 @@ namespace TicTacToe
         {
             await Shell.Current.GoToAsync(nameof(PlayPage));
         }
+        
+        // Filepath for the player.json file
+        private string GetFilePath()
+        {
+            string path = AppDomain.CurrentDomain.BaseDirectory;
+            string filePath = Path.Combine(path, "player.json");
+            return filePath;
+        }
 
+        // Adds a new player to the player.json file
         private void AddPlayer(object sender, EventArgs e)
         {
             Player newPlayer = new Player();
             Button button = (Button)sender;
 
+            // Checks if the user has filled in all the fields
+            // Creates a new player with the user input information
             switch (button.ClassId)
             {
                 case "player1add":
@@ -78,9 +90,7 @@ namespace TicTacToe
                     break;
             }
 
-            string path = AppDomain.CurrentDomain.BaseDirectory;
-            string filePath = Path.Combine(path, "player.json");
-
+            // Used for clearing the entry fields after user clicking "Save new player"
             void ClearEntries()
             {
                 switch (button.ClassId)
@@ -98,7 +108,8 @@ namespace TicTacToe
                 }
             }
 
-            void AddPlayerToFile(Player newPlayer, List<Player> playerCollection, string filePath)
+            // Adds the new player to the JSON file
+            void AddPlayerToFile(Player newPlayer, List<Player> playerCollection)
             {
                 // Add the new player to the collection
                 playerCollection.Add(newPlayer);
@@ -107,14 +118,14 @@ namespace TicTacToe
                 var updatedJson = JsonSerializer.Serialize(playerCollection, new JsonSerializerOptions { WriteIndented = true });
 
                 // Write the updated JSON back to the file
-                File.WriteAllText(filePath, updatedJson);
+                File.WriteAllText(GetFilePath(), updatedJson);
             }
 
             // Check if the file already exists
-            if (File.Exists(filePath))
+            if (File.Exists(GetFilePath()))
             {
                 // Read the existing file
-                var json = File.ReadAllText(filePath);
+                var json = File.ReadAllText(GetFilePath());
 
                 var playerCollection = new List<Player>();
 
@@ -130,12 +141,12 @@ namespace TicTacToe
                     }
                     else
                     {
-                        AddPlayerToFile(newPlayer, playerCollection, filePath);
+                        AddPlayerToFile(newPlayer, playerCollection);
                     }
                 }
                 else
                 {
-                    AddPlayerToFile(newPlayer, playerCollection, filePath);
+                    AddPlayerToFile(newPlayer, playerCollection);
                 }
 
                 ClearEntries();
@@ -145,7 +156,7 @@ namespace TicTacToe
             // If the file doesn't exist, create it
             else
             {
-                using (FileStream fs = File.Create(filePath))
+                using (FileStream fs = File.Create(GetFilePath()))
                 {
 
                 }
@@ -160,7 +171,7 @@ namespace TicTacToe
                 var updatedJson = JsonSerializer.Serialize(playerCollection, new JsonSerializerOptions { WriteIndented = true });
 
                 // Write the updated JSON back to the file
-                File.WriteAllText(filePath, updatedJson);
+                File.WriteAllText(GetFilePath(), updatedJson);
 
                 ClearEntries();
                 UpdateList();
@@ -170,35 +181,37 @@ namespace TicTacToe
         // Deletes the player.json file, thus clearing all stats
         private void ClearStats(object sender, EventArgs e)
         {
-            string path = AppDomain.CurrentDomain.BaseDirectory;
-            string filePath = Path.Combine(path, "player.json");
-
-            if (File.Exists(filePath))
+            if (File.Exists(GetFilePath()))
             {
-                File.Delete(filePath);
+                File.Delete(GetFilePath());
             }
             UpdateList();
         }
 
+        // "Choose player" option for the dropdown lists
+        // AI opponent option for the dropdown lists
         public readonly Player DefaultPlayer = new Player { Firstname = "Choose player", Surname = "" };
         public readonly Player AiOpponent = new Player { Firstname = "_AI", Surname = "Opponent_", YearOfBirth = 6969 };
 
+        // Updates the dropdown lists with the players from the JSON file
         private void UpdateList()
         {
-            string path = AppDomain.CurrentDomain.BaseDirectory;
-            string filePath = Path.Combine(path, "player.json");
-            if (File.Exists(filePath) == false)
+            // Creating the file if it doesn't exist
+            if (File.Exists(GetFilePath()) == false)
             {
-                using (FileStream fs = File.Create(filePath))
+                using (FileStream fs = File.Create(GetFilePath()))
                 {
 
                 }
+
+                // Adding the AI opponent to the JSON file
                 var playerCollection2 = new List<Player> { AiOpponent };
                 var updatedJson = JsonSerializer.Serialize(playerCollection2, new JsonSerializerOptions { WriteIndented = true });
 
-                File.WriteAllText(filePath, updatedJson);
+                File.WriteAllText(GetFilePath(), updatedJson);
             }
-            var json = File.ReadAllText(filePath);
+            // Reading, deserializing and adding the players to the dropdown lists
+            var json = File.ReadAllText(GetFilePath());
             var items = new List<Player>();
             if (json != "")
             {
@@ -215,13 +228,15 @@ namespace TicTacToe
             Player2Picker.SelectedIndex = 0;
         }
 
-        // Passing the selected players to the PlayPage
+        // Public variables for the selected players
         public static bool IsPlayer1Ai = false;
         public static bool IsPlayer2Ai = false;
         public static string player1;
         public static string player2;
 
         // Disabling "Play" button until user has chosen two players
+        // Not allowing the user to choose the same player twice
+        // Changes the player variables according to the players user chose
         void OnPlayer1PickerSelectedIndexChanged(object sender, EventArgs e)
         {
             var picker = sender as Picker;

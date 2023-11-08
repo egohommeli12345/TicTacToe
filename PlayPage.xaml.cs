@@ -13,21 +13,25 @@ public partial class PlayPage : ContentPage
         Routing.RegisterRoute(nameof(MainPage), typeof(MainPage));
     }
 
+    // Creating variables used to track the game progress
+    int turncounter = 0;
+    int[] board = new int[9];
     bool gameStarted = false;
+    bool gameEnded = false;
+
+    // If the player is AI, it will start the game
     protected override async void OnAppearing()
     {
         base.OnAppearing();
-        if (gameStarted == false)
+        if (!gameStarted && !gameEnded)
         {
+            whosturn.Text = $"{MainPage.player1}'s turn";
             await AiStart();
             gameStarted = true;
         }
     }
 
-    // Creating variables used to track the game progress
-    int turncounter = 0;
-    int[] board = new int[9];
-
+    // If player1 is AI, it will start the game
     public async Task AiStart()
     {
         if (MainPage.IsPlayer1Ai == true)
@@ -36,9 +40,11 @@ public partial class PlayPage : ContentPage
         }
     }
 
-    // Function which tracks turns and checks if a player has won
+    // Marks the button with an X or O depending on whose turn it is
     private async void OnButtonClicked(object sender, EventArgs e)
     {
+        if (gameEnded) return;
+
         Button button = (Button)sender;
 
         if (button.Text != "")
@@ -53,7 +59,7 @@ public partial class PlayPage : ContentPage
                 whosturn.Text = $"{MainPage.player2}'s turn";
                 board[ButtonLocation(button)] = 1;
                 turncounter++;
-                if (MainPage.IsPlayer2Ai == true && CheckIfWon(board) == false)
+                if (MainPage.IsPlayer2Ai == true && CheckIfWon(board) == false && turncounter < 9)
                 {
                     await AiOpponent();
                 }
@@ -64,7 +70,7 @@ public partial class PlayPage : ContentPage
                 whosturn.Text = $"{MainPage.player1}'s turn";
                 board[ButtonLocation(button)] = 2;
                 turncounter++;
-                if (MainPage.IsPlayer1Ai == true && CheckIfWon(board) == false)
+                if (MainPage.IsPlayer1Ai == true && CheckIfWon(board) == false && turncounter < 9)
                 {
                     await AiOpponent();
                 }
@@ -74,28 +80,30 @@ public partial class PlayPage : ContentPage
         // Check if a player has won
         if (CheckIfWon(board) == true)
         {
+            gameEnded = true;
             if (turncounter % 2 == 0)
             {
+                await DisplayAlert("Alert", $"{MainPage.player2} won!", "Return to menu");
                 UpdateStats(MainPage.player1, 0, 0, 1);
                 UpdateStats(MainPage.player2, 1, 0, 0);
-                await DisplayAlert("Alert", $"{MainPage.player2} won!", "Return to menu");
             }
             else
             {
+                await DisplayAlert("Alert", $"{MainPage.player1} won!", "Return to menu");
                 UpdateStats(MainPage.player1, 1, 0, 0);
                 UpdateStats(MainPage.player2, 0, 0, 1);
-                await DisplayAlert("Alert", $"{MainPage.player1} won!", "Return to menu");
             }
             ResetGame();
-            ReturnToMenu();
+            await ReturnToMenu();
         }
         else if (turncounter == 9 && CheckIfWon(board) == false)
         {
+            gameEnded = true;
+            await DisplayAlert("Alert", "It's a tie!", "Return to menu");
             UpdateStats(MainPage.player1, 0, 1, 0);
             UpdateStats(MainPage.player2, 0, 1, 0);
-            await DisplayAlert("Alert", "It's a tie!", "Return to menu");
             ResetGame();
-            ReturnToMenu();
+            await ReturnToMenu();
         }
     }
 
@@ -127,7 +135,7 @@ public partial class PlayPage : ContentPage
         return false;
     }
 
-    // Resets the game
+    // Resets the game; variables and buttons to starting values
     private void ResetGame()
     {
         turncounter = 0;
@@ -167,6 +175,7 @@ public partial class PlayPage : ContentPage
         OnButtonClicked(button, new EventArgs());
     }
 
+    // Updates the player stats in the JSON file
     private void UpdateStats(string winner, int win, int draw, int lose)
     {
         string[] names = winner.Split(' ');
@@ -199,9 +208,9 @@ public partial class PlayPage : ContentPage
         }
     }
 
-    private void ReturnToMenu()
+    private async Task ReturnToMenu()
     {
-        Shell.Current.GoToAsync(nameof(MainPage));
+        await Shell.Current.GoToAsync(nameof(MainPage));
     }
 
     // Random delay function for AI opponent. Makes the game more realistic.
