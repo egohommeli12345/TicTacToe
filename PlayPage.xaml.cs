@@ -11,6 +11,8 @@ public partial class PlayPage : ContentPage
     {
         InitializeComponent();
         Routing.RegisterRoute(nameof(MainPage), typeof(MainPage));
+        _player1Timer = new Timer(TimerCallback, 1, Timeout.Infinite, 1000);
+        _player2Timer = new Timer(TimerCallback, 2, Timeout.Infinite, 1000);
     }
 
     // Creating variables used to track the game progress
@@ -19,6 +21,11 @@ public partial class PlayPage : ContentPage
     bool gameStarted = false;
     bool gameEnded = false;
 
+    private Timer _player1Timer;
+    private Timer _player2Timer;
+    private int _player1SecondsElapsed;
+    private int _player2SecondsElapsed;
+
     // If the player is AI, it will start the game
     protected override async void OnAppearing()
     {
@@ -26,9 +33,18 @@ public partial class PlayPage : ContentPage
         if (!gameStarted && !gameEnded)
         {
             whosturn.Text = $"{MainPage.player1}'s turn";
+            StartPlayerTimer(1);
             await AiStart();
             gameStarted = true;
         }
+    }
+
+    // On exit, dispose of the timers
+    protected override void OnDisappearing()
+    {
+        base.OnDisappearing();
+        _player1Timer?.Dispose();
+        _player2Timer?.Dispose();
     }
 
     // If player1 is AI, it will start the game
@@ -55,6 +71,8 @@ public partial class PlayPage : ContentPage
         {
             if (turncounter % 2 == 0)
             {
+                StopPlayerTimer(1);
+                StartPlayerTimer(2);
                 button.Text = "X";
                 whosturn.Text = $"{MainPage.player2}'s turn";
                 board[ButtonLocation(button)] = 1;
@@ -66,6 +84,8 @@ public partial class PlayPage : ContentPage
             }
             else
             {
+                StopPlayerTimer(2);
+                StartPlayerTimer(1);
                 button.Text = "O";
                 whosturn.Text = $"{MainPage.player1}'s turn";
                 board[ButtonLocation(button)] = 2;
@@ -80,18 +100,20 @@ public partial class PlayPage : ContentPage
         // Check if a player has won
         if (CheckIfWon(board) == true)
         {
+            StopPlayerTimer(1);
+            StopPlayerTimer(2);
             gameEnded = true;
             if (turncounter % 2 == 0)
             {
                 await DisplayAlert("Alert", $"{MainPage.player2} won!", "Return to menu");
-                UpdateStats(MainPage.player1, 0, 0, 1);
-                UpdateStats(MainPage.player2, 1, 0, 0);
+                UpdateStats(MainPage.player1, 0, 0, 1, _player1SecondsElapsed);
+                UpdateStats(MainPage.player2, 1, 0, 0, _player2SecondsElapsed);
             }
             else
             {
                 await DisplayAlert("Alert", $"{MainPage.player1} won!", "Return to menu");
-                UpdateStats(MainPage.player1, 1, 0, 0);
-                UpdateStats(MainPage.player2, 0, 0, 1);
+                UpdateStats(MainPage.player1, 1, 0, 0, _player1SecondsElapsed);
+                UpdateStats(MainPage.player2, 0, 0, 1, _player2SecondsElapsed);
             }
             ResetGame();
             await ReturnToMenu();
@@ -100,8 +122,8 @@ public partial class PlayPage : ContentPage
         {
             gameEnded = true;
             await DisplayAlert("Alert", "It's a tie!", "Return to menu");
-            UpdateStats(MainPage.player1, 0, 1, 0);
-            UpdateStats(MainPage.player2, 0, 1, 0);
+            UpdateStats(MainPage.player1, 0, 1, 0, _player1SecondsElapsed);
+            UpdateStats(MainPage.player2, 0, 1, 0, _player2SecondsElapsed);
             ResetGame();
             await ReturnToMenu();
         }
@@ -138,6 +160,8 @@ public partial class PlayPage : ContentPage
     // Resets the game; variables and buttons to starting values
     private void ResetGame()
     {
+        _player1SecondsElapsed = 0;
+        _player2SecondsElapsed = 0;
         turncounter = 0;
         board = new int[9];
         string buttonId = "button";
@@ -176,7 +200,7 @@ public partial class PlayPage : ContentPage
     }
 
     // Updates the player stats in the JSON file
-    private void UpdateStats(string winner, int win, int draw, int lose)
+    private void UpdateStats(string winner, int win, int draw, int lose, int playTime)
     {
         string[] names = winner.Split(' ');
 
@@ -200,6 +224,7 @@ public partial class PlayPage : ContentPage
             playerToUpdate.Wins += win;
             playerToUpdate.Draws += draw;
             playerToUpdate.Losses += lose;
+            playerToUpdate.Playtime += playTime;
             playerCollection[playerIndex] = playerToUpdate; // Set the updated player back into the list
 
             // Serialize and write the updated list back to the JSON file
@@ -219,5 +244,43 @@ public partial class PlayPage : ContentPage
         Random rnd = new Random();
         int delay = rnd.Next(500, 2001); // Random delay between 500ms and 2000ms
         await Task.Delay(delay);
+    }
+
+    // Timer functions
+    private void StartPlayerTimer(int playerNumber)
+    {
+        if (playerNumber == 1)
+        {
+            _player1Timer.Change(0, 1000);
+        }
+        else
+        {
+            _player2Timer.Change(0, 1000);
+        }
+    }
+
+    private void StopPlayerTimer(int playerNumber)
+    {
+        if (playerNumber == 1)
+        {
+            _player1Timer.Change(Timeout.Infinite, Timeout.Infinite);
+        }
+        else
+        {
+            _player2Timer.Change(Timeout.Infinite, Timeout.Infinite);
+        }
+    }
+
+    private void TimerCallback(object state)
+    {
+        int playerNumber = (int)state;
+        if (playerNumber == 1)
+        {
+            _player1SecondsElapsed++;
+        }
+        else
+        {
+            _player2SecondsElapsed++;
+        }
     }
 }

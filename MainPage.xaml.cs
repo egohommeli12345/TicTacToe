@@ -14,8 +14,9 @@ namespace TicTacToe
             public int Wins { get; set; }
             public int Losses { get; set; }
             public int Draws { get; set; }
+            public int Playtime { get; set; }
 
-            public Player(string firstname, string surname, int yearOfBirth, int wins, int losses, int draws)
+            public Player(string firstname, string surname, int yearOfBirth, int wins, int losses, int draws, int playtime)
             {
                 Firstname = firstname;
                 Surname = surname;
@@ -23,6 +24,7 @@ namespace TicTacToe
                 Wins = wins;
                 Losses = losses;
                 Draws = draws;
+                Playtime = playtime;
             }
 
             public override string ToString()
@@ -45,7 +47,7 @@ namespace TicTacToe
         }
         
         // Filepath for the player.json file
-        private string GetFilePath()
+        private static string GetFilePath()
         {
             string path = AppDomain.CurrentDomain.BaseDirectory;
             string filePath = Path.Combine(path, "player.json");
@@ -73,7 +75,7 @@ namespace TicTacToe
                         DisplayAlert("Error", "Please enter a valid year", "OK");
                         return;
                     }
-                    newPlayer = new Player(Player1Firstname.Text, Player1Surname.Text, int.Parse(Player1Year.Text), 0, 0, 0);
+                    newPlayer = new Player(Player1Firstname.Text, Player1Surname.Text, int.Parse(Player1Year.Text), 0, 0, 0, 0);
                     break;
                 case "player2add":
                     if (string.IsNullOrEmpty(Player2Firstname.Text) || string.IsNullOrEmpty(Player2Surname.Text) || string.IsNullOrEmpty(Player2Year.Text))
@@ -86,7 +88,7 @@ namespace TicTacToe
                         DisplayAlert("Error", "Please enter a valid year", "OK");
                         return;
                     }
-                    newPlayer = new Player(Player2Firstname.Text, Player2Surname.Text, int.Parse(Player2Year.Text), 0, 0, 0);
+                    newPlayer = new Player(Player2Firstname.Text, Player2Surname.Text, int.Parse(Player2Year.Text), 0, 0, 0, 0);
                     break;
             }
 

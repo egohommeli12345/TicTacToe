@@ -20,6 +20,7 @@
                                 <Label Text=" Losses: " FontSize="Small" />
                                 <Label Text="{Binding Losses}" FontSize="Small" />
                             </StackLayout>
+                            <Label Text="{Binding Playtime, StringFormat='Playtime: {0} seconds'}" FontSize="Small" />
                         </StackLayout>
                     </ViewCell>
                 </DataTemplate>
