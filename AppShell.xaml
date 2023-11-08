@@ -11,7 +11,7 @@
     <Shell.MenuBarItems>
         <MenuBarItem Text="Menu">
             <MenuFlyoutItem Text="Stats" Command="{Binding OpenStatsCommand}"/>
-            <MenuFlyoutItem Text="Exit" />
+            <MenuFlyoutItem Text="Exit" Command="{Binding ExitCommand}" />
         </MenuBarItem>
     </Shell.MenuBarItems>
 
