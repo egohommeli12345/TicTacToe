@@ -58,56 +58,27 @@ namespace TicTacToe
         private void AddPlayer(object sender, EventArgs e)
         {
             Player newPlayer = new Player();
-            Button button = (Button)sender;
 
             // Checks if the user has filled in all the fields
             // Creates a new player with the user input information
-            switch (button.ClassId)
+            if (string.IsNullOrEmpty(PlayerFirstname.Text) || string.IsNullOrEmpty(PlayerSurname.Text) || string.IsNullOrEmpty(PlayerYear.Text))
             {
-                case "player1add":
-                    if (string.IsNullOrEmpty(Player1Firstname.Text) || string.IsNullOrEmpty(Player1Surname.Text) || string.IsNullOrEmpty(Player1Year.Text))
-                    {
-                        DisplayAlert("Error", "Please fill in all fields", "OK");
-                        return;
-                    }
-                    else if (int.TryParse(Player1Year.Text, out int result) == false)
-                    {
-                        DisplayAlert("Error", "Please enter a valid year", "OK");
-                        return;
-                    }
-                    newPlayer = new Player(Player1Firstname.Text, Player1Surname.Text, int.Parse(Player1Year.Text), 0, 0, 0, 0);
-                    break;
-                case "player2add":
-                    if (string.IsNullOrEmpty(Player2Firstname.Text) || string.IsNullOrEmpty(Player2Surname.Text) || string.IsNullOrEmpty(Player2Year.Text))
-                    {
-                        DisplayAlert("Error", "Please fill in all fields", "OK");
-                        return;
-                    }
-                    else if (int.TryParse(Player2Year.Text, out int result2) == false)
-                    {
-                        DisplayAlert("Error", "Please enter a valid year", "OK");
-                        return;
-                    }
-                    newPlayer = new Player(Player2Firstname.Text, Player2Surname.Text, int.Parse(Player2Year.Text), 0, 0, 0, 0);
-                    break;
+                DisplayAlert("Error", "Please fill in all fields", "OK");
+                return;
             }
+            else if (int.TryParse(PlayerYear.Text, out int result) == false)
+            {
+                DisplayAlert("Error", "Please enter a valid year", "OK");
+                return;
+            }
+            newPlayer = new Player(PlayerFirstname.Text, PlayerSurname.Text, int.Parse(PlayerYear.Text), 0, 0, 0, 0);
 
             // Used for clearing the entry fields after user clicking "Save new player"
             void ClearEntries()
             {
-                switch (button.ClassId)
-                {
-                    case "player1add":
-                        Player1Firstname.Text = "";
-                        Player1Surname.Text = "";
-                        Player1Year.Text = "";
-                        break;
-                    case "player2add":
-                        Player2Firstname.Text = "";
-                        Player2Surname.Text = "";
-                        Player2Year.Text = "";
-                        break;
-                }
+                PlayerFirstname.Text = "";
+                PlayerSurname.Text = "";
+                PlayerYear.Text = "";
             }
 
             // Adds the new player to the JSON file

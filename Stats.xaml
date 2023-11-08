@@ -3,31 +3,33 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="TicTacToe.Stats">
 
-    <VerticalStackLayout>
-        <ListView x:Name="playersListView" ItemsSource="{Binding Players}">
-            <ListView.ItemTemplate>
-                <DataTemplate>
-                    <ViewCell>
-                        <StackLayout Orientation="Vertical" Padding="10">
-                            <Label Text="{Binding Firstname, StringFormat='Firstname: {0}'}" FontSize="Medium" />
-                            <Label Text="{Binding Surname, StringFormat='Surname: {0}'}" FontSize="Medium" />
-                            <Label Text="{Binding YearOfBirth, StringFormat='Year Of Birth: {0}'}" FontSize="Small" />
-                            <StackLayout Orientation="Horizontal">
-                                <Label Text="Wins: " FontSize="Small" />
-                                <Label Text="{Binding Wins}" FontSize="Small" />
-                                <Label Text=" Draws: " FontSize="Small" />
-                                <Label Text="{Binding Draws}" FontSize="Small" />
-                                <Label Text=" Losses: " FontSize="Small" />
-                                <Label Text="{Binding Losses}" FontSize="Small" />
+    <ScrollView>
+        <VerticalStackLayout>
+            <Button Text="Back" Clicked="Back_Clicked" />
+            <ListView x:Name="playersListView" ItemsSource="{Binding Players}">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <StackLayout Orientation="Vertical" Padding="10">
+                                <Label Text="{Binding Firstname, StringFormat='Firstname: {0}'}" FontSize="Medium" />
+                                <Label Text="{Binding Surname, StringFormat='Surname: {0}'}" FontSize="Medium" />
+                                <Label Text="{Binding YearOfBirth, StringFormat='Year Of Birth: {0}'}" FontSize="Small" />
+                                <StackLayout Orientation="Horizontal">
+                                    <Label Text="Wins: " FontSize="Small" />
+                                    <Label Text="{Binding Wins}" FontSize="Small" />
+                                    <Label Text=" Draws: " FontSize="Small" />
+                                    <Label Text="{Binding Draws}" FontSize="Small" />
+                                    <Label Text=" Losses: " FontSize="Small" />
+                                    <Label Text="{Binding Losses}" FontSize="Small" />
+                                </StackLayout>
+                                <Label Text="{Binding Playtime, StringFormat='Playtime: {0} seconds'}" FontSize="Small" />
                             </StackLayout>
-                            <Label Text="{Binding Playtime, StringFormat='Playtime: {0} seconds'}" FontSize="Small" />
-                        </StackLayout>
-                    </ViewCell>
-                </DataTemplate>
-            </ListView.ItemTemplate>
-        </ListView>
-        <Button Text="Back" Clicked="Back_Clicked" />
-    </VerticalStackLayout>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </VerticalStackLayout>
+    </ScrollView>
 
 
 </ContentPage>

@@ -11,12 +11,10 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" />
             <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
 
         <Grid Grid.Row="0" Grid.Column="0" RowSpacing="20">
             <Grid.RowDefinitions>
-                <RowDefinition Height="20" />
                 <RowDefinition Height="*" />
                 <RowDefinition Height="*" />
                 <RowDefinition Height="*" />
@@ -24,40 +22,39 @@
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
 
-            <Label Grid.Row="0" HorizontalOptions="Center" VerticalOptions="Center" Grid.ColumnSpan="2">Player 1</Label>
-            <Entry x:Name="Player1Firstname" Placeholder="Firstname" Grid.Row="1" Grid.ColumnSpan="2" />
-            <Entry x:Name="Player1Surname" Placeholder="Surname" Grid.Row="2" Grid.ColumnSpan="2" />
-            <Entry x:Name="Player1Year" Placeholder="Year of birth" Grid.Row="3" Grid.ColumnSpan="2"/>
-            <Button x:Name="Player1Add" ClassId="player1add" Text="Save new player" Grid.Row="4" Grid.Column="1" Clicked="AddPlayer" Margin="0, 0, 0, 15"></Button>
-            <Picker x:Name="Player1Picker" Grid.Row="4" HorizontalOptions="CenterAndExpand" SelectedIndexChanged="OnPlayer1PickerSelectedIndexChanged"></Picker>
+            <Entry x:Name="PlayerFirstname" Placeholder="Firstname" Grid.Row="0" Grid.ColumnSpan="2" />
+            <Entry x:Name="PlayerSurname" Placeholder="Surname" Grid.Row="1" Grid.ColumnSpan="2" />
+            <Entry x:Name="PlayerYear" Placeholder="Year of birth" Grid.Row="2" Grid.ColumnSpan="2"/>
+            <Button x:Name="PlayerAdd" Text="Save new player" Grid.Row="3" Clicked="AddPlayer" Margin="0, 0, 0, 15"></Button>
             
         </Grid>
 
-        <Label Grid.Row="0" Grid.Column="1" HorizontalOptions="Center" VerticalOptions="Center" FontSize="30">VS</Label>
 
         <Grid Grid.Row="0" Grid.Column="2" RowSpacing="20">
             <Grid.RowDefinitions>
-                <RowDefinition Height="20" />
                 <RowDefinition Height="*" />
-                <RowDefinition Height="*" />
-                <RowDefinition Height="*" />
-                <RowDefinition Height="60" />
+                <RowDefinition Height="50" />
+                <RowDefinition Height="50" />
+                <RowDefinition Height="50" />
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
 
-            <Label Grid.Row="0" HorizontalOptions="Center" VerticalOptions="Center" Grid.ColumnSpan="2">Player 2</Label>
-            <Entry x:Name="Player2Firstname" Placeholder="Firstname" Grid.Row="1" Grid.ColumnSpan="2" />
-            <Entry x:Name="Player2Surname" Placeholder="Surname" Grid.Row="2" Grid.ColumnSpan="2" />
-            <Entry x:Name="Player2Year"  Placeholder="Year of birth" Grid.Row="3" Grid.ColumnSpan="2" />
-            <Button x:Name="Player2Add" ClassId="player2add" Text="Save new player" Grid.Row="4" Grid.Column="1" Clicked="AddPlayer" Margin="0, 0, 0, 15"></Button>
-            <Picker x:Name="Player2Picker" Grid.Row="4" HorizontalOptions="CenterAndExpand" SelectedIndexChanged="OnPlayer2PickerSelectedIndexChanged"></Picker>
-            
+            <Label Text="TicTacToe" Grid.Row="0" Grid.ColumnSpan="3" HorizontalOptions="Center" VerticalOptions="Center" FontSize="80" FontAttributes="Bold" TextDecorations="Underline"></Label>
+
+            <Label Grid.Row="0" Grid.Column="0" HorizontalOptions="Center" VerticalOptions="End">Player 1</Label>
+            <Picker Grid.Row="1" Grid.Column="0" x:Name="Player1Picker" HorizontalOptions="CenterAndExpand" SelectedIndexChanged="OnPlayer1PickerSelectedIndexChanged"></Picker>
+
+            <Label Grid.Row="1" Grid.Column="1" HorizontalOptions="Center" VerticalOptions="Start" FontSize="30">VS</Label>
+
+            <Label Grid.Row="0" Grid.Column="2" HorizontalOptions="Center" VerticalOptions="End">Player 2</Label>
+            <Picker Grid.Row="1" Grid.Column="2" x:Name="Player2Picker" HorizontalOptions="CenterAndExpand" SelectedIndexChanged="OnPlayer2PickerSelectedIndexChanged"></Picker>
+
         </Grid>
 
         <Button Grid.Row="1" Grid.Column="0" Text="Clear all stats" Margin="0, 0, 0, 10" Clicked="ClearStats"></Button>
