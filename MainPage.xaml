@@ -1,7 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="TicTacToe.MainPage">
+             x:Class="TicTacToe.MainPage"
+             Background="Black">
 
     <Grid Margin="10" ColumnSpacing="10">
         <Grid.RowDefinitions>
@@ -24,10 +25,10 @@
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
 
-            <Entry x:Name="PlayerFirstname" Placeholder="Firstname" Grid.Row="0" Grid.ColumnSpan="2" />
-            <Entry x:Name="PlayerSurname" Placeholder="Surname" Grid.Row="1" Grid.ColumnSpan="2" />
+            <Entry x:Name="PlayerFirstname" Placeholder="Firstname" Grid.Row="0" Grid.ColumnSpan="2"/>
+            <Entry x:Name="PlayerSurname" Placeholder="Surname" Grid.Row="1" Grid.ColumnSpan="2"/>
             <Entry x:Name="PlayerYear" Placeholder="Year of birth" Grid.Row="2" Grid.ColumnSpan="2"/>
-            <Button x:Name="PlayerAdd" Text="Save new player" Grid.Row="3" Clicked="AddPlayer" Margin="0, 0, 0, 15"></Button>
+            <Button x:Name="PlayerAdd" Text="Save new player" Grid.Row="3" Clicked="AddPlayer" Margin="0, 0, 0, 15" BorderColor="Black"></Button>
             
         </Grid>
 
@@ -57,8 +58,8 @@
 
         </Grid>
 
-        <Button Grid.Row="1" Grid.Column="0" Text="Clear all stats" Margin="0, 0, 0, 10" Clicked="ClearStats"></Button>
-        <Button x:Name="PlayVSButton" Grid.Row="1" Grid.Column="1" Text="Play" Margin="0, 0, 0, 10" Clicked="PlayVS" IsEnabled="False"></Button>
+        <Button Grid.Row="1" Grid.Column="0" Text="Clear all stats" Margin="0, 0, 0, 10" Clicked="ClearStats" BorderColor="Black"></Button>
+        <Button x:Name="PlayVSButton" Grid.Row="1" Grid.Column="1" Text="Play" Margin="0, 0, 0, 10" Clicked="PlayVS" IsEnabled="False" BorderColor="Black"></Button>
     </Grid>
 
 </ContentPage>
